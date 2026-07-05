@@ -1,5 +1,7 @@
 # Voyage Analytics — End-to-End MLOps Travel Intelligence Platform
 
+🌐 **Live Streamlit Dashboard**: [Voyage Analytics Live Web App](https://voyage-analytics-mlops-travel-intelligence-opkcnvduve4jryt2ugr.streamlit.app/)
+
 A modular, production-ready MLOps platform for travel booking analytics, price optimization, and customer retention. The project integrates customer transactional history (users, flights, hotels) to run unified feature engineering, model training, MLflow tracking, and live deployment.
 
 ## 🚀 Key Features
