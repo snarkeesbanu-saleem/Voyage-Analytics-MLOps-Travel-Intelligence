@@ -1,0 +1,24 @@
+2026-07-02 22:21:10,623 | src.utils | INFO | Loaded configuration from C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\config.yaml
+2026-07-02 22:21:10,629 | voyage_analytics.api | INFO | Models loaded successfully. Errors: none
+2026-07-02 22:21:10,634 | voyage_analytics.api | INFO | Starting Voyage Analytics API on port 5000 (debug=False)
+2026-07-02 22:21:10,790 | werkzeug | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.166.53.228:5000
+2026-07-02 22:21:10,790 | werkzeug | INFO | [33mPress CTRL+C to quit[0m
+2026-07-04 22:06:53,576 | src.utils | INFO | Loaded configuration from C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\config.yaml
+2026-07-04 22:06:53,583 | voyage_analytics.api | INFO | Models loaded successfully. Errors: none
+2026-07-04 22:06:53,591 | voyage_analytics.api | INFO | Starting Voyage Analytics API on port 5000 (debug=False)
+2026-07-04 22:06:53,746 | werkzeug | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.166.53.228:5000
+2026-07-04 22:06:53,747 | werkzeug | INFO | [33mPress CTRL+C to quit[0m
+2026-07-05 18:25:44,082 | src.utils | INFO | Loaded configuration from C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\config.yaml
+2026-07-05 18:25:44,087 | voyage_analytics.api | INFO | Models loaded successfully. Errors: none
+2026-07-05 18:25:44,095 | voyage_analytics.api | INFO | Starting Voyage Analytics API on port 5000 (debug=False)
+2026-07-05 18:25:44,174 | werkzeug | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.166.53.228:5000
+2026-07-05 18:25:44,176 | werkzeug | INFO | [33mPress CTRL+C to quit[0m

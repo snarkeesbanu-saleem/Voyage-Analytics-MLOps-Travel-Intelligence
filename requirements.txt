@@ -1,0 +1,16 @@
+pandas
+numpy
+scikit-learn
+xgboost
+mlflow
+flask
+gunicorn
+streamlit
+plotly
+apache-airflow
+pytest
+joblib
+pyyaml
+seaborn
+matplotlib
+requests

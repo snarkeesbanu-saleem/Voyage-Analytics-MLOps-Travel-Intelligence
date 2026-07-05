@@ -1,0 +1,92 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = 'voyage-registry.local'
+        API_IMAGE_NAME = 'voyage-api'
+        STREAMLIT_IMAGE_NAME = 'voyage-streamlit'
+        BUILD_TAG = "${env.BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip install --no-cache-dir -r requirements.txt'
+            }
+        }
+
+        stage('Lint & Static Analysis') {
+            steps {
+                sh 'pip install flake8 black'
+                sh 'black --check voyage-analytics/'
+                sh 'flake8 voyage-analytics/ --max-line-length=120'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                sh 'pytest tests/ -v --tb=short'
+            }
+        }
+
+        stage('Execute ML Training Pipeline') {
+            steps {
+                sh 'python pipelines/training_pipeline.py'
+            }
+        }
+
+        stage('Validate Model Performance') {
+            steps {
+                script {
+                    def metrics_file = 'reports/churn_metrics.json'
+                    if (fileExists(metrics_file)) {
+                        def props = readJSON file: metrics_file
+                        def accuracy = props.accuracy
+                        echo "Model Churn Accuracy: ${accuracy}"
+                        if (accuracy.toFloat() < 0.70) {
+                            error "Model accuracy is below acceptable threshold (70%)!"
+                        }
+                    } else {
+                        error "Metrics file not found. Model training failed!"
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                sh "docker build -f docker/Dockerfile -t ${DOCKER_REGISTRY}/${API_IMAGE_NAME}:${BUILD_TAG} ."
+                sh "docker build -f docker/Dockerfile.streamlit -t ${DOCKER_REGISTRY}/${STREAMLIT_IMAGE_NAME}:${BUILD_TAG} ."
+            }
+        }
+
+        stage('Push Docker Images') {
+            steps {
+                sh "docker push ${DOCKER_REGISTRY}/${API_IMAGE_NAME}:${BUILD_TAG}"
+                sh "docker push ${DOCKER_REGISTRY}/${STREAMLIT_IMAGE_NAME}:${BUILD_TAG}"
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh "kubectl set image deployment/voyage-api api=${DOCKER_REGISTRY}/${API_IMAGE_NAME}:${BUILD_TAG} --record"
+                sh "kubectl rollout status deployment/voyage-api"
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "CI/CD Pipeline succeeded!"
+        }
+        failure {
+            echo "CI/CD Pipeline failed! Check logs."
+        }
+    }
+}
