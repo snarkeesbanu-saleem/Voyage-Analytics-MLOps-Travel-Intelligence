@@ -132,10 +132,10 @@ acc = accuracy_score(y_te, churn_model.predict(X_te))
 print(f"  Churn Model Accuracy: {acc:.4f}")
 
 # Save model and preprocessor
-joblib.dump(churn_model, MODELS_DIR / "churn_model.joblib")
+joblib.dump(churn_model, MODELS_DIR / "churn_classifier.joblib")
 with open(MODELS_DIR / "churn_preprocessor.pkl", "wb") as f:
     pickle.dump({"scaler": churn_scaler, "features": churn_features}, f)
-print("  ✅ churn_model.joblib + churn_preprocessor.pkl saved")
+print("  [Saved] churn_classifier.joblib + churn_preprocessor.pkl")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # MODEL 2 — FLIGHT PRICE REGRESSOR
@@ -182,7 +182,7 @@ with open(MODELS_DIR / "flight_price_preprocessor.pkl", "wb") as f:
         "le_flight_type": le_flight_type,
         "le_agency": le_agency,
     }, f)
-print("  ✅ flight_price_model.joblib + flight_price_preprocessor.pkl saved")
+print("  [Saved] flight_price_model.joblib + flight_price_preprocessor.pkl")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # MODEL 3 — GENDER CLASSIFIER
@@ -211,14 +211,14 @@ gender_model.fit(X_tr, y_tr)
 acc_g = accuracy_score(y_te, gender_model.predict(X_te))
 print(f"  Gender Model Accuracy: {acc_g:.4f}")
 
-joblib.dump(gender_model, MODELS_DIR / "gender_model.joblib")
+joblib.dump(gender_model, MODELS_DIR / "gender_classifier.joblib")
 with open(MODELS_DIR / "gender_preprocessor.pkl", "wb") as f:
     pickle.dump({
         "scaler": gender_scaler,
         "features": gender_features,
         "le_gender": le_gender,
     }, f)
-print("  ✅ gender_model.joblib + gender_preprocessor.pkl saved")
+print("  [Saved] gender_classifier.joblib + gender_preprocessor.pkl")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # SUMMARY
@@ -227,9 +227,9 @@ print("\n[6/6] Verifying saved model files...")
 model_files = list(MODELS_DIR.glob("*"))
 for f in model_files:
     size_kb = f.stat().st_size / 1024
-    print(f"  📦 {f.name} ({size_kb:.1f} KB)")
+    print(f"   {f.name} ({size_kb:.1f} KB)")
 
 print("\n" + "=" * 60)
-print("✅ All 3 models trained and saved successfully!")
+print("All 3 models trained and saved successfully!")
 print(f"   Model directory: {MODELS_DIR}")
 print("=" * 60)
