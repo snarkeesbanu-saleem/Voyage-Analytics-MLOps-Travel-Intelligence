@@ -359,13 +359,24 @@ def apply_chart_layout(fig, title="", height=500):
 
 def chart_container(fig):
     """Wrap a Plotly figure in a styled container."""
-    st.plotly_chart(fig, use_column_width=True, config={"displayModeBar": False})
+    try:
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    except TypeError:
+        st.plotly_chart(fig, use_column_width=True, config={"displayModeBar": False})
+
+
+def safe_image(path_or_str, **kwargs):
+    """Safely render an image with compatibility fallback."""
+    try:
+        st.image(path_or_str, use_container_width=True, **kwargs)
+    except TypeError:
+        st.image(path_or_str, use_column_width=True, **kwargs)
 
 
 def banner_image(path):
     """Display a hero banner image."""
     if path.exists():
-        st.image(str(path), use_column_width=True)
+        safe_image(str(path))
 
 
 def section_header(icon, text):
@@ -419,7 +430,7 @@ if page == "🏠 Home":
     if logo_path.exists():
         col_logo = st.columns([1, 2, 1])
         with col_logo[1]:
-            st.image(str(logo_path), use_column_width=True)
+            safe_image(str(logo_path))
 
     st.markdown("")
     section_header("🏠", "Voyage Analytics — MLOps Travel Intelligence")
@@ -1199,7 +1210,7 @@ elif page == "📊 Model Performance":
                     img_path = REPORTS_DIR / f"{model_key}_feature_importance.png"
                     if img_path.exists():
                         st.markdown(f"#### {model_key.replace('_', ' ').title()}")
-                        st.image(str(img_path), use_column_width=True)
+                        safe_image(str(img_path))
                     else:
                         st.info(f"No feature importance chart found for {model_key}")
 
@@ -1209,7 +1220,7 @@ elif page == "📊 Model Performance":
                     img_path = REPORTS_DIR / f"{model_key}_confusion_matrix.png"
                     if img_path.exists():
                         st.markdown(f"#### {model_key.replace('_', ' ').title()}")
-                        st.image(str(img_path), use_column_width=True)
+                        safe_image(str(img_path))
                     else:
                         st.info(f"No confusion matrix chart found for {model_key}")
 
@@ -1217,7 +1228,7 @@ elif page == "📊 Model Performance":
                 st.markdown("### Predicted vs Actual")
                 img_path = REPORTS_DIR / "flight_price_actual_vs_predicted.png"
                 if img_path.exists():
-                    st.image(str(img_path), use_column_width=True)
+                    safe_image(str(img_path))
                 else:
                     st.info("No predicted vs actual chart found for flight_price")
 
