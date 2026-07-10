@@ -596,8 +596,9 @@ elif page == "✈️ Flights Analytics":
 
     with col3:
         # Chart 4: Violin — Price by Flight Type
+        violin_sample = fdf.sample(min(15000, len(fdf)), random_state=42) if len(fdf) > 15000 else fdf
         fig = px.violin(
-            fdf, x="flightType", y="price", color="flightType",
+            violin_sample, x="flightType", y="price", color="flightType",
             box=True, points=False, color_discrete_sequence=PALETTE,
         )
         apply_chart_layout(fig, "Price Distribution by Flight Type", 420)
@@ -718,8 +719,9 @@ elif page == "🏨 Hotels Analytics":
 
     with col2:
         # Chart 3: Price Per Night Box Plot
+        box_sample = hdf.sample(min(10000, len(hdf)), random_state=42) if len(hdf) > 10000 else hdf
         fig = px.box(
-            hdf, x="name", y="price_per_night", color="name",
+            box_sample, x="name", y="price_per_night", color="name",
             color_discrete_sequence=PALETTE,
         )
         apply_chart_layout(fig, "Price Per Night by Hotel", 420)
