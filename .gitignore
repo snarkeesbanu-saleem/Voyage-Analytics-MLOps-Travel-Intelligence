@@ -40,8 +40,9 @@ htmlcov/
 # Local databases & MLflow run caches
 mlruns/
 mlflow.db
-*.joblib
-*.pkl
+# Exclude oversized legacy model files only
+models/gender_classifier.joblib
+models/churn_classifier.joblib
 
 # IDEs
 .idea/
