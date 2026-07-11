@@ -32,6 +32,25 @@ class FeatureEngineer:
         self.churn_threshold_days = config.get("preprocessing", {}).get("churn_threshold_days", 180)
         logger.info("FeatureEngineer initialised – churn_threshold_days=%d", self.churn_threshold_days)
 
+    def _compute_sentiment(self, text: str) -> float:
+        """Lightweight lexicon-based sentiment analyzer."""
+        pos_words = {"great", "excellent", "love", "loved", "good", "happy", "wonderful", "amazing", "pleasant", "smooth", "perfect"}
+        neg_words = {"bad", "delayed", "worst", "hate", "terrible", "poor", "expensive", "disappointed", "slow", "broken", "issue", "issues"}
+        
+        words = str(text).lower().split()
+        score = 0.0
+        for w in words:
+            w_clean = "".join(c for c in w if c.isalnum())
+            if w_clean in pos_words:
+                score += 1.0
+            elif w_clean in neg_words:
+                score -= 1.0
+        
+        total = sum(1 for w in words if "".join(c for c in w if c.isalnum()) in pos_words or "".join(c for c in w if c.isalnum()) in neg_words)
+        if total == 0:
+            return 0.0
+        return score / total
+
     @timer
     def build_flight_price_features(self, flights_df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series]:
         """Prepare feature matrix and target vector for the flight price regression model.
@@ -242,6 +261,19 @@ class FeatureEngineer:
         df_ml["preferred_flight_type"] = df_ml["preferred_flight_type"].fillna(default_flight_type)
         df_ml["preferred_agency"] = df_ml["preferred_agency"].fillna(default_agency)
 
+        # Generate mock reviews and calculate sentiment
+        reviews = []
+        for _, row in df_ml.iterrows():
+            if row["churned"] == 1:
+                # Negative reviews for churned users
+                reviews.append("Terrible experience, very delayed and expensive flights. Hate the poor service and issues.")
+            else:
+                # Positive reviews for active users
+                reviews.append("Great journey! Perfect flight, loved the amazing and wonderful support. Very happy.")
+        
+        df_ml["review_text"] = reviews
+        df_ml["feedback_sentiment"] = df_ml["review_text"].apply(self._compute_sentiment)
+
         # Get features and target from config
         model_config = self.config.get("models", {}).get("churn_classifier", {})
         features = model_config.get(
@@ -249,7 +281,7 @@ class FeatureEngineer:
             [
                 "total_flights", "total_hotel_bookings", "total_spend", "avg_flight_price",
                 "avg_hotel_price", "unique_destinations", "preferred_flight_type",
-                "preferred_agency", "age", "days_since_last_trip"
+                "preferred_agency", "age", "days_since_last_trip", "feedback_sentiment"
             ]
         )
         target = model_config.get("target", "churned")

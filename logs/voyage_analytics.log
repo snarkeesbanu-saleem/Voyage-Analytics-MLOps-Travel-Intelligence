@@ -331,3 +331,279 @@
 2026-07-05 18:25:16,487 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: churn_feature_importance.png
 2026-07-05 18:25:16,511 — __main__ — INFO — Churn classification pipeline finished successfully.
 2026-07-05 18:25:16,512 — __main__ — INFO — All model training pipelines completed successfully.
+2026-07-10 22:56:10,461 — src.utils — INFO — Logging configured.  Console output enabled. File logging: logs/voyage_analytics.log
+2026-07-10 22:56:10,465 — src.data_ingestion — INFO — DataIngestion initialised – data_dir=C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\data
+2026-07-10 22:56:10,466 — src.feature_engineering — INFO — FeatureEngineer initialised – churn_threshold_days=180
+2026-07-10 22:56:10,470 — src.model_training — INFO — ModelTrainer initialised – models_dir=C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models
+2026-07-10 22:56:10,474 — src.model_evaluation — INFO — ModelEvaluator initialised – reports_dir=C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports
+2026-07-10 22:56:10,479 — mlflow_tracking.tracking_config — INFO — MLflow Tracking URI set to: sqlite:///C:/Users/NARKEES SALEEM/OneDrive/Documents/voyage analytics/voyage-analytics/mlflow.db
+2026-07-10 22:56:10,480 — __main__ — INFO — Executing full Voyage Analytics training pipeline...
+2026-07-10 22:56:10,480 — src.data_ingestion — INFO — Loading all datasets …
+2026-07-10 22:56:10,480 — src.data_ingestion — INFO — Loading users from C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\data\users.csv
+2026-07-10 22:56:10,533 — src.data_ingestion — INFO — Schema OK for 'users' – found 5 columns.
+2026-07-10 22:56:10,538 — src.data_ingestion — INFO — 'users' shape: (1340, 5)  |  dtypes: {'code': Int64Dtype(), 'company': dtype('O'), 'name': dtype('O'), 'gender': dtype('O'), 'age': Float64Dtype()}
+2026-07-10 22:56:10,580 — src.utils — INFO — Function 'load_users' executed in 0.0999 seconds
+2026-07-10 22:56:10,580 — src.data_ingestion — INFO — Loading flights from C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\data\flights.csv
+2026-07-10 22:56:11,126 — src.data_ingestion — INFO — Schema OK for 'flights' – found 10 columns.
+2026-07-10 22:56:11,213 — src.data_ingestion — INFO — Parsed flights 'date' column successfully.
+2026-07-10 22:56:11,217 — src.data_ingestion — INFO — 'flights' shape: (271888, 10)  |  dtypes: {'travelCode': dtype('int64'), 'userCode': dtype('int64'), 'from': dtype('O'), 'to': dtype('O'), 'flightType': dtype('O'), 'price': dtype('float64'), 'time': dtype('float64'), 'distance': dtype('float64'), 'agency': dtype('O'), 'date': dtype('<M8[ns]')}
+2026-07-10 22:56:11,315 — src.utils — INFO — Function 'load_flights' executed in 0.7349 seconds
+2026-07-10 22:56:11,316 — src.data_ingestion — INFO — Loading hotels from C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\data\hotels.csv
+2026-07-10 22:56:11,398 — src.data_ingestion — INFO — Schema OK for 'hotels' – found 8 columns.
+2026-07-10 22:56:11,407 — src.data_ingestion — INFO — Parsed hotels 'date' column successfully.
+2026-07-10 22:56:11,409 — src.data_ingestion — INFO — 'hotels' shape: (40552, 8)  |  dtypes: {'travelCode': dtype('int64'), 'userCode': dtype('int64'), 'name': dtype('O'), 'place': dtype('O'), 'days': dtype('int64'), 'price': dtype('float64'), 'total': dtype('float64'), 'date': dtype('<M8[ns]')}
+2026-07-10 22:56:11,441 — src.utils — INFO — Function 'load_hotels' executed in 0.1261 seconds
+2026-07-10 22:56:11,443 — src.data_ingestion — INFO — All datasets loaded – users=1340, flights=271888, hotels=40552
+2026-07-10 22:56:11,443 — src.utils — INFO — Function 'load_all' executed in 0.9626 seconds
+2026-07-10 22:56:11,443 — __main__ — INFO — ==================================================
+2026-07-10 22:56:11,443 — __main__ — INFO — STARTING FLIGHT PRICE MODEL TRAINING PIPELINE
+2026-07-10 22:56:11,444 — __main__ — INFO — ==================================================
+2026-07-10 22:56:11,444 — src.data_preprocessing — INFO — DataPreprocessor initialised.
+2026-07-10 22:56:11,566 — src.data_preprocessing — INFO — Handling missing values (strategy=median) – total NaN before: 0
+2026-07-10 22:56:11,717 — src.data_preprocessing — INFO — Missing-value handling complete – NaN remaining: 0
+2026-07-10 22:56:11,717 — src.utils — INFO — Function 'handle_missing_values' executed in 0.2733 seconds
+2026-07-10 22:56:11,728 — src.data_preprocessing — INFO — Encoding categoricals: ['flightType', 'agency', 'from', 'to']
+2026-07-10 22:56:11,817 — src.data_preprocessing — INFO — Encoded 'flightType' – 3 unique classes: ['economic', 'firstClass', 'premium']
+2026-07-10 22:56:11,900 — src.data_preprocessing — INFO — Encoded 'agency' – 3 unique classes: ['CloudFy', 'FlyingDrops', 'Rainbow']
+2026-07-10 22:56:11,984 — src.data_preprocessing — INFO — Encoded 'from' – 9 unique classes: ['Aracaju (SE)', 'Brasilia (DF)', 'Campo Grande (MS)', 'Florianopolis (SC)', 'Natal (RN)', 'Recife (PE)', 'Rio de Janeiro (RJ)', 'Salvador (BH)', 'Sao Paulo (SP)']
+2026-07-10 22:56:12,072 — src.data_preprocessing — INFO — Encoded 'to' – 9 unique classes: ['Aracaju (SE)', 'Brasilia (DF)', 'Campo Grande (MS)', 'Florianopolis (SC)', 'Natal (RN)', 'Recife (PE)', 'Rio de Janeiro (RJ)', 'Salvador (BH)', 'Sao Paulo (SP)']
+2026-07-10 22:56:12,072 — src.utils — INFO — Function 'encode_categoricals' executed in 0.3551 seconds
+2026-07-10 22:56:12,085 — src.data_preprocessing — INFO — Removing outliers (IQR × 1.50) on columns: ['price']
+2026-07-10 22:56:12,111 — src.data_preprocessing — INFO — Outlier removal complete – 0 / 271888 rows removed (0.0%).
+2026-07-10 22:56:12,111 — src.utils — INFO — Function 'remove_outliers' executed in 0.0342 seconds
+2026-07-10 22:56:12,117 — src.data_preprocessing — INFO — Preprocessor state saved to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\flight_price_preprocessor.pkl
+2026-07-10 22:56:12,117 — src.feature_engineering — INFO — Engineering features for Flight Price regression model...
+2026-07-10 22:56:12,150 — src.feature_engineering — INFO — Flight price features engineered. X shape: (271888, 6), y shape: (271888,)
+2026-07-10 22:56:12,151 — src.utils — INFO — Function 'build_flight_price_features' executed in 0.0331 seconds
+2026-07-10 22:56:12,151 — src.model_training — INFO — Training Flight Price Regression Model...
+2026-07-10 22:56:12,199 — src.model_training — INFO — Selected model: random_forest with params: {'n_estimators': 200, 'max_depth': 15, 'min_samples_split': 5, 'min_samples_leaf': 2, 'max_features': 'sqrt', 'random_state': 42, 'n_jobs': -1}
+2026-07-10 22:56:12,200 — src.model_training — INFO — Fitting Flight Price model...
+2026-07-10 22:56:22,166 — src.utils — INFO — Saved artifact to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\flight_price_model.joblib
+2026-07-10 22:56:22,167 — src.model_training — INFO — Flight Price model trained and saved successfully.
+2026-07-10 22:56:22,167 — src.utils — INFO — Function 'train_flight_price_model' executed in 10.0159 seconds
+2026-07-10 22:56:22,167 — src.model_evaluation — INFO — Evaluating regression model 'flight_price'...
+2026-07-10 22:56:22,518 — src.model_evaluation — INFO — Regression Metrics for flight_price: {'mean_absolute_error': 0.07696594378445905, 'mean_squared_error': 0.09395867944161619, 'root_mean_squared_error': 0.3065268005274844, 'r2_score': 0.999999286945077, 'mean_absolute_percentage_error': 0.006331682344967531}
+2026-07-10 22:56:22,521 — src.model_evaluation — INFO — Saved JSON metrics report to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\flight_price_metrics.json
+2026-07-10 22:56:24,267 — src.model_evaluation — INFO — Saved actual vs predicted plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\flight_price_actual_vs_predicted.png
+2026-07-10 22:56:25,037 — src.model_evaluation — INFO — Saved feature importance plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\flight_price_feature_importance.png
+2026-07-10 22:56:25,038 — src.utils — INFO — Function 'evaluate_regression' executed in 2.8706 seconds
+2026-07-10 22:56:34,755 — mlflow_tracking.tracking_config — INFO — Found existing MLflow experiment: Flight_Price_Regression (ID: 1)
+2026-07-10 22:56:34,770 — mlflow_tracking.tracking_config — INFO — Starting MLflow run 'RandomForest_Regressor_Run' under experiment 'Flight_Price_Regression'...
+2026-07-10 22:57:51,133 — mlflow_tracking.tracking_config — INFO — Logged and registered model artifact: flight_price_model
+2026-07-10 22:57:51,170 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: flight_price_metrics.json
+2026-07-10 22:57:51,176 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: flight_price_actual_vs_predicted.png
+2026-07-10 22:57:51,184 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: flight_price_feature_importance.png
+2026-07-10 22:57:51,215 — __main__ — INFO — Flight Price pipeline finished successfully.
+2026-07-10 22:57:51,217 — __main__ — INFO — ==================================================
+2026-07-10 22:57:51,217 — __main__ — INFO — STARTING GENDER MODEL TRAINING PIPELINE
+2026-07-10 22:57:51,217 — __main__ — INFO — ==================================================
+2026-07-10 22:57:51,218 — src.feature_engineering — INFO — Engineering features for Gender classification model...
+2026-07-10 22:57:51,599 — src.feature_engineering — INFO — Gender features engineered. X shape: (271888, 9), y shape: (271888,)
+2026-07-10 22:57:51,628 — src.utils — INFO — Function 'build_gender_features' executed in 0.4095 seconds
+2026-07-10 22:57:51,628 — src.data_preprocessing — INFO — DataPreprocessor initialised.
+2026-07-10 22:57:51,693 — src.data_preprocessing — INFO — Handling missing values (strategy=median) – total NaN before: 0
+2026-07-10 22:57:51,794 — src.data_preprocessing — INFO — Missing-value handling complete – NaN remaining: 0
+2026-07-10 22:57:51,795 — src.utils — INFO — Function 'handle_missing_values' executed in 0.1665 seconds
+2026-07-10 22:57:51,804 — src.data_preprocessing — INFO — Encoding categoricals: ['flightType', 'agency']
+2026-07-10 22:57:51,897 — src.data_preprocessing — INFO — Encoded 'flightType' – 3 unique classes: ['economic', 'firstClass', 'premium']
+2026-07-10 22:57:51,990 — src.data_preprocessing — INFO — Encoded 'agency' – 3 unique classes: ['CloudFy', 'FlyingDrops', 'Rainbow']
+2026-07-10 22:57:51,991 — src.utils — INFO — Function 'encode_categoricals' executed in 0.1957 seconds
+2026-07-10 22:57:52,001 — src.data_preprocessing — INFO — Normalising columns: ['age', 'price', 'distance', 'time', 'days', 'hotel_price', 'hotel_total']
+2026-07-10 22:57:52,259 — src.data_preprocessing — INFO — Normalisation complete – means ≈ [42.815, 957.375, 546.9555, 1.4211, 0.7457, 63.9672, 159.9569], stds ≈ [12.9463, 362.3112, 208.8509, 0.5425, 1.2968, 106.6867, 301.0066]
+2026-07-10 22:57:52,259 — src.utils — INFO — Function 'normalize_numericals' executed in 0.2652 seconds
+2026-07-10 22:57:52,267 — src.data_preprocessing — INFO — Preprocessor state saved to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\gender_preprocessor.pkl
+2026-07-10 22:57:52,268 — src.model_training — INFO — Training Gender Classification Model...
+2026-07-10 22:57:52,492 — src.model_training — INFO — Selected model: random_forest with params: {'n_estimators': 150, 'max_depth': 12, 'min_samples_split': 5, 'min_samples_leaf': 2, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1}
+2026-07-10 22:57:52,492 — src.model_training — INFO — Fitting Gender classifier model...
+2026-07-10 22:58:08,142 — src.utils — INFO — Saved artifact to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\gender_classifier.joblib
+2026-07-10 22:58:08,143 — src.model_training — INFO — Gender classifier model trained and saved successfully.
+2026-07-10 22:58:08,143 — src.utils — INFO — Function 'train_gender_classifier' executed in 15.8747 seconds
+2026-07-10 22:58:08,143 — src.model_evaluation — INFO — Evaluating classification model 'gender'...
+2026-07-10 22:58:08,844 — src.model_evaluation — INFO — Classification Metrics for gender: {'accuracy': 0.6241862517930046, 'precision': 0.45624896813604093, 'recall': 0.6035160515396375, 'f1_score': 0.5196502444528018, 'auc_roc': 0.6727772349224721}
+2026-07-10 22:58:08,847 — src.model_evaluation — INFO — Saved JSON metrics report to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\gender_metrics.json
+2026-07-10 22:58:09,157 — src.model_evaluation — INFO — Saved confusion matrix plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\gender_confusion_matrix.png
+2026-07-10 22:58:09,899 — src.model_evaluation — INFO — Saved feature importance plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\gender_feature_importance.png
+2026-07-10 22:58:09,900 — src.utils — INFO — Function 'evaluate_classification' executed in 1.7572 seconds
+2026-07-10 22:58:09,918 — mlflow_tracking.tracking_config — INFO — Found existing MLflow experiment: Gender_Classification (ID: 2)
+2026-07-10 22:58:09,929 — mlflow_tracking.tracking_config — INFO — Starting MLflow run 'RandomForest_Classifier_Run' under experiment 'Gender_Classification'...
+2026-07-10 22:58:37,851 — mlflow_tracking.tracking_config — INFO — Logged and registered model artifact: gender_classifier
+2026-07-10 22:58:37,895 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: gender_metrics.json
+2026-07-10 22:58:37,911 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: gender_confusion_matrix.png
+2026-07-10 22:58:37,960 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: gender_feature_importance.png
+2026-07-10 22:58:37,995 — __main__ — INFO — Gender classification pipeline finished successfully.
+2026-07-10 22:58:38,010 — __main__ — INFO — ==================================================
+2026-07-10 22:58:38,011 — __main__ — INFO — STARTING CHURN MODEL TRAINING PIPELINE
+2026-07-10 22:58:38,011 — __main__ — INFO — ==================================================
+2026-07-10 22:58:38,011 — src.feature_engineering — INFO — Engineering features for Churn classification model...
+2026-07-10 22:58:39,927 — src.feature_engineering — INFO — Churn features engineered. X shape: (1340, 10), y shape: (1340,)
+2026-07-10 22:58:39,933 — src.utils — INFO — Function 'build_churn_features' executed in 1.9213 seconds
+2026-07-10 22:58:39,934 — src.data_preprocessing — INFO — DataPreprocessor initialised.
+2026-07-10 22:58:39,937 — src.data_preprocessing — INFO — Handling missing values (strategy=median) – total NaN before: 0
+2026-07-10 22:58:39,946 — src.data_preprocessing — INFO — Missing-value handling complete – NaN remaining: 0
+2026-07-10 22:58:39,947 — src.utils — INFO — Function 'handle_missing_values' executed in 0.0129 seconds
+2026-07-10 22:58:39,947 — src.data_preprocessing — INFO — Encoding categoricals: ['preferred_flight_type', 'preferred_agency']
+2026-07-10 22:58:39,951 — src.data_preprocessing — INFO — Encoded 'preferred_flight_type' – 3 unique classes: ['economic', 'firstClass', 'premium']
+2026-07-10 22:58:39,954 — src.data_preprocessing — INFO — Encoded 'preferred_agency' – 3 unique classes: ['CloudFy', 'FlyingDrops', 'Rainbow']
+2026-07-10 22:58:39,954 — src.utils — INFO — Function 'encode_categoricals' executed in 0.0073 seconds
+2026-07-10 22:58:39,956 — src.data_preprocessing — INFO — Normalising columns: ['total_flights', 'total_hotel_bookings', 'total_spend', 'avg_flight_price', 'avg_hotel_price', 'unique_destinations', 'age', 'days_since_last_trip']
+2026-07-10 22:58:39,975 — src.data_preprocessing — INFO — Normalisation complete – means ≈ [202.9015, 30.2627, 210480.5682, 952.801, 209.1821, 8.6575, 42.7425, 723.4321], stds ≈ [118.1494, 18.3476, 124470.1893, 110.0944, 40.0014, 1.2422, 12.865, 700.9803]
+2026-07-10 22:58:39,975 — src.utils — INFO — Function 'normalize_numericals' executed in 0.0202 seconds
+2026-07-10 22:58:39,980 — src.data_preprocessing — INFO — Preprocessor state saved to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\churn_preprocessor.pkl
+2026-07-10 22:58:39,981 — src.model_training — INFO — Training Churn Classification Model...
+2026-07-10 22:58:39,990 — src.model_training — INFO — Selected model: random_forest with params: {'n_estimators': 200, 'max_depth': 10, 'min_samples_split': 10, 'min_samples_leaf': 4, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1}
+2026-07-10 22:58:39,991 — src.model_training — INFO — Fitting Churn classifier model...
+2026-07-10 22:58:41,103 — src.utils — INFO — Saved artifact to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\churn_classifier.joblib
+2026-07-10 22:58:41,104 — src.model_training — INFO — Churn classifier model trained and saved successfully.
+2026-07-10 22:58:41,105 — src.utils — INFO — Function 'train_churn_classifier' executed in 1.1238 seconds
+2026-07-10 22:58:41,106 — src.model_evaluation — INFO — Evaluating classification model 'churn'...
+2026-07-10 22:58:41,363 — src.model_evaluation — INFO — Classification Metrics for churn: {'accuracy': 1.0, 'precision': 1.0, 'recall': 1.0, 'f1_score': 1.0, 'auc_roc': 1.0}
+2026-07-10 22:58:41,367 — src.model_evaluation — INFO — Saved JSON metrics report to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\churn_metrics.json
+2026-07-10 22:58:41,651 — src.model_evaluation — INFO — Saved confusion matrix plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\churn_confusion_matrix.png
+2026-07-10 22:58:42,588 — src.model_evaluation — INFO — Saved feature importance plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\churn_feature_importance.png
+2026-07-10 22:58:42,590 — src.utils — INFO — Function 'evaluate_classification' executed in 1.4840 seconds
+2026-07-10 22:58:42,631 — mlflow_tracking.tracking_config — INFO — Found existing MLflow experiment: Churn_Classification (ID: 3)
+2026-07-10 22:58:42,648 — mlflow_tracking.tracking_config — INFO — Starting MLflow run 'RandomForest_Classifier_Run' under experiment 'Churn_Classification'...
+2026-07-10 22:59:07,470 — mlflow_tracking.tracking_config — INFO — Logged and registered model artifact: churn_classifier
+2026-07-10 22:59:07,506 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: churn_metrics.json
+2026-07-10 22:59:07,515 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: churn_confusion_matrix.png
+2026-07-10 22:59:07,523 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: churn_feature_importance.png
+2026-07-10 22:59:07,553 — __main__ — INFO — Churn classification pipeline finished successfully.
+2026-07-10 22:59:07,555 — __main__ — INFO — All model training pipelines completed successfully.
+2026-07-11 11:48:41,403 — src.utils — INFO — Logging configured.  Console output enabled. File logging: logs/voyage_analytics.log
+2026-07-11 11:48:41,408 — src.data_ingestion — INFO — DataIngestion initialised – data_dir=C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\data
+2026-07-11 11:48:41,409 — src.feature_engineering — INFO — FeatureEngineer initialised – churn_threshold_days=180
+2026-07-11 11:48:41,413 — src.model_training — INFO — ModelTrainer initialised – models_dir=C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models
+2026-07-11 11:48:41,418 — src.model_evaluation — INFO — ModelEvaluator initialised – reports_dir=C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports
+2026-07-11 11:48:41,423 — mlflow_tracking.tracking_config — INFO — MLflow Tracking URI set to: sqlite:///C:/Users/NARKEES SALEEM/OneDrive/Documents/voyage analytics/voyage-analytics/mlflow.db
+2026-07-11 11:48:41,424 — __main__ — INFO — Executing full Voyage Analytics training pipeline...
+2026-07-11 11:48:41,424 — src.data_ingestion — INFO — Loading all datasets …
+2026-07-11 11:48:41,424 — src.data_ingestion — INFO — Loading users from C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\data\users.csv
+2026-07-11 11:48:41,527 — src.data_ingestion — INFO — Schema OK for 'users' – found 5 columns.
+2026-07-11 11:48:41,538 — src.data_ingestion — INFO — 'users' shape: (1340, 5)  |  dtypes: {'code': Int64Dtype(), 'company': dtype('O'), 'name': dtype('O'), 'gender': dtype('O'), 'age': Float64Dtype()}
+2026-07-11 11:48:41,575 — src.utils — INFO — Function 'load_users' executed in 0.1509 seconds
+2026-07-11 11:48:41,575 — src.data_ingestion — INFO — Loading flights from C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\data\flights.csv
+2026-07-11 11:48:42,174 — src.data_ingestion — INFO — Schema OK for 'flights' – found 10 columns.
+2026-07-11 11:48:42,243 — src.data_ingestion — INFO — Parsed flights 'date' column successfully.
+2026-07-11 11:48:42,248 — src.data_ingestion — INFO — 'flights' shape: (271888, 10)  |  dtypes: {'travelCode': dtype('int64'), 'userCode': dtype('int64'), 'from': dtype('O'), 'to': dtype('O'), 'flightType': dtype('O'), 'price': dtype('float64'), 'time': dtype('float64'), 'distance': dtype('float64'), 'agency': dtype('O'), 'date': dtype('<M8[ns]')}
+2026-07-11 11:48:42,358 — src.utils — INFO — Function 'load_flights' executed in 0.7827 seconds
+2026-07-11 11:48:42,358 — src.data_ingestion — INFO — Loading hotels from C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\data\hotels.csv
+2026-07-11 11:48:42,439 — src.data_ingestion — INFO — Schema OK for 'hotels' – found 8 columns.
+2026-07-11 11:48:42,449 — src.data_ingestion — INFO — Parsed hotels 'date' column successfully.
+2026-07-11 11:48:42,453 — src.data_ingestion — INFO — 'hotels' shape: (40552, 8)  |  dtypes: {'travelCode': dtype('int64'), 'userCode': dtype('int64'), 'name': dtype('O'), 'place': dtype('O'), 'days': dtype('int64'), 'price': dtype('float64'), 'total': dtype('float64'), 'date': dtype('<M8[ns]')}
+2026-07-11 11:48:42,494 — src.utils — INFO — Function 'load_hotels' executed in 0.1357 seconds
+2026-07-11 11:48:42,494 — src.data_ingestion — INFO — All datasets loaded – users=1340, flights=271888, hotels=40552
+2026-07-11 11:48:42,494 — src.utils — INFO — Function 'load_all' executed in 1.0706 seconds
+2026-07-11 11:48:42,494 — __main__ — INFO — ==================================================
+2026-07-11 11:48:42,495 — __main__ — INFO — STARTING FLIGHT PRICE MODEL TRAINING PIPELINE
+2026-07-11 11:48:42,495 — __main__ — INFO — ==================================================
+2026-07-11 11:48:42,495 — src.data_preprocessing — INFO — DataPreprocessor initialised.
+2026-07-11 11:48:42,583 — src.data_preprocessing — INFO — Handling missing values (strategy=median) – total NaN before: 0
+2026-07-11 11:48:42,729 — src.data_preprocessing — INFO — Missing-value handling complete – NaN remaining: 0
+2026-07-11 11:48:42,729 — src.utils — INFO — Function 'handle_missing_values' executed in 0.2342 seconds
+2026-07-11 11:48:42,743 — src.data_preprocessing — INFO — Encoding categoricals: ['flightType', 'agency', 'from', 'to']
+2026-07-11 11:48:42,829 — src.data_preprocessing — INFO — Encoded 'flightType' – 3 unique classes: ['economic', 'firstClass', 'premium']
+2026-07-11 11:48:42,913 — src.data_preprocessing — INFO — Encoded 'agency' – 3 unique classes: ['CloudFy', 'FlyingDrops', 'Rainbow']
+2026-07-11 11:48:42,997 — src.data_preprocessing — INFO — Encoded 'from' – 9 unique classes: ['Aracaju (SE)', 'Brasilia (DF)', 'Campo Grande (MS)', 'Florianopolis (SC)', 'Natal (RN)', 'Recife (PE)', 'Rio de Janeiro (RJ)', 'Salvador (BH)', 'Sao Paulo (SP)']
+2026-07-11 11:48:43,084 — src.data_preprocessing — INFO — Encoded 'to' – 9 unique classes: ['Aracaju (SE)', 'Brasilia (DF)', 'Campo Grande (MS)', 'Florianopolis (SC)', 'Natal (RN)', 'Recife (PE)', 'Rio de Janeiro (RJ)', 'Salvador (BH)', 'Sao Paulo (SP)']
+2026-07-11 11:48:43,085 — src.utils — INFO — Function 'encode_categoricals' executed in 0.3551 seconds
+2026-07-11 11:48:43,096 — src.data_preprocessing — INFO — Removing outliers (IQR × 1.50) on columns: ['price']
+2026-07-11 11:48:43,119 — src.data_preprocessing — INFO — Outlier removal complete – 0 / 271888 rows removed (0.0%).
+2026-07-11 11:48:43,119 — src.utils — INFO — Function 'remove_outliers' executed in 0.0301 seconds
+2026-07-11 11:48:43,125 — src.data_preprocessing — INFO — Preprocessor state saved to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\flight_price_preprocessor.pkl
+2026-07-11 11:48:43,126 — src.feature_engineering — INFO — Engineering features for Flight Price regression model...
+2026-07-11 11:48:43,140 — src.feature_engineering — INFO — Flight price features engineered. X shape: (271888, 6), y shape: (271888,)
+2026-07-11 11:48:43,141 — src.utils — INFO — Function 'build_flight_price_features' executed in 0.0148 seconds
+2026-07-11 11:48:43,141 — src.model_training — INFO — Training Flight Price Regression Model...
+2026-07-11 11:48:43,193 — src.model_training — INFO — Selected model: random_forest with params: {'n_estimators': 200, 'max_depth': 15, 'min_samples_split': 5, 'min_samples_leaf': 2, 'max_features': 'sqrt', 'random_state': 42, 'n_jobs': -1}
+2026-07-11 11:48:43,193 — src.model_training — INFO — Fitting Flight Price model...
+2026-07-11 11:48:56,044 — src.utils — INFO — Saved artifact to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\flight_price_model.joblib
+2026-07-11 11:48:56,045 — src.model_training — INFO — Flight Price model trained and saved successfully.
+2026-07-11 11:48:56,045 — src.utils — INFO — Function 'train_flight_price_model' executed in 12.9044 seconds
+2026-07-11 11:48:56,045 — src.model_evaluation — INFO — Evaluating regression model 'flight_price'...
+2026-07-11 11:48:56,407 — src.model_evaluation — INFO — Regression Metrics for flight_price: {'mean_absolute_error': 0.07696594378446119, 'mean_squared_error': 0.09395867944161902, 'root_mean_squared_error': 0.306526800527489, 'r2_score': 0.999999286945077, 'mean_absolute_percentage_error': 0.006331682344967726}
+2026-07-11 11:48:56,410 — src.model_evaluation — INFO — Saved JSON metrics report to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\flight_price_metrics.json
+2026-07-11 11:48:58,481 — src.model_evaluation — INFO — Saved actual vs predicted plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\flight_price_actual_vs_predicted.png
+2026-07-11 11:48:59,232 — src.model_evaluation — INFO — Saved feature importance plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\flight_price_feature_importance.png
+2026-07-11 11:48:59,232 — src.utils — INFO — Function 'evaluate_regression' executed in 3.1868 seconds
+2026-07-11 11:49:09,829 — mlflow_tracking.tracking_config — INFO — Found existing MLflow experiment: Flight_Price_Regression (ID: 1)
+2026-07-11 11:49:09,840 — mlflow_tracking.tracking_config — INFO — Starting MLflow run 'RandomForest_Regressor_Run' under experiment 'Flight_Price_Regression'...
+2026-07-11 11:51:24,301 — mlflow_tracking.tracking_config — INFO — Logged and registered model artifact: flight_price_model
+2026-07-11 11:51:24,344 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: flight_price_metrics.json
+2026-07-11 11:51:24,354 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: flight_price_actual_vs_predicted.png
+2026-07-11 11:51:24,360 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: flight_price_feature_importance.png
+2026-07-11 11:51:24,400 — __main__ — INFO — Flight Price pipeline finished successfully.
+2026-07-11 11:51:24,401 — __main__ — INFO — ==================================================
+2026-07-11 11:51:24,401 — __main__ — INFO — STARTING GENDER MODEL TRAINING PIPELINE
+2026-07-11 11:51:24,401 — __main__ — INFO — ==================================================
+2026-07-11 11:51:24,401 — src.feature_engineering — INFO — Engineering features for Gender classification model...
+2026-07-11 11:51:24,853 — src.feature_engineering — INFO — Gender features engineered. X shape: (271888, 9), y shape: (271888,)
+2026-07-11 11:51:24,879 — src.utils — INFO — Function 'build_gender_features' executed in 0.4774 seconds
+2026-07-11 11:51:24,879 — src.data_preprocessing — INFO — DataPreprocessor initialised.
+2026-07-11 11:51:24,945 — src.data_preprocessing — INFO — Handling missing values (strategy=median) – total NaN before: 0
+2026-07-11 11:51:25,062 — src.data_preprocessing — INFO — Missing-value handling complete – NaN remaining: 0
+2026-07-11 11:51:25,064 — src.utils — INFO — Function 'handle_missing_values' executed in 0.1840 seconds
+2026-07-11 11:51:25,076 — src.data_preprocessing — INFO — Encoding categoricals: ['flightType', 'agency']
+2026-07-11 11:51:25,196 — src.data_preprocessing — INFO — Encoded 'flightType' – 3 unique classes: ['economic', 'firstClass', 'premium']
+2026-07-11 11:51:25,314 — src.data_preprocessing — INFO — Encoded 'agency' – 3 unique classes: ['CloudFy', 'FlyingDrops', 'Rainbow']
+2026-07-11 11:51:25,314 — src.utils — INFO — Function 'encode_categoricals' executed in 0.2503 seconds
+2026-07-11 11:51:25,326 — src.data_preprocessing — INFO — Normalising columns: ['age', 'price', 'distance', 'time', 'days', 'hotel_price', 'hotel_total']
+2026-07-11 11:51:25,589 — src.data_preprocessing — INFO — Normalisation complete – means ≈ [42.815, 957.375, 546.9555, 1.4211, 0.7457, 63.9672, 159.9569], stds ≈ [12.9463, 362.3112, 208.8509, 0.5425, 1.2968, 106.6867, 301.0066]
+2026-07-11 11:51:25,590 — src.utils — INFO — Function 'normalize_numericals' executed in 0.2725 seconds
+2026-07-11 11:51:25,597 — src.data_preprocessing — INFO — Preprocessor state saved to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\gender_preprocessor.pkl
+2026-07-11 11:51:25,597 — src.model_training — INFO — Training Gender Classification Model...
+2026-07-11 11:51:25,801 — src.model_training — INFO — Selected model: random_forest with params: {'n_estimators': 150, 'max_depth': 12, 'min_samples_split': 5, 'min_samples_leaf': 2, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1}
+2026-07-11 11:51:25,802 — src.model_training — INFO — Fitting Gender classifier model...
+2026-07-11 11:51:40,715 — src.utils — INFO — Saved artifact to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\gender_classifier.joblib
+2026-07-11 11:51:40,716 — src.model_training — INFO — Gender classifier model trained and saved successfully.
+2026-07-11 11:51:40,716 — src.utils — INFO — Function 'train_gender_classifier' executed in 15.1194 seconds
+2026-07-11 11:51:40,717 — src.model_evaluation — INFO — Evaluating classification model 'gender'...
+2026-07-11 11:51:41,406 — src.model_evaluation — INFO — Classification Metrics for gender: {'accuracy': 0.6241862517930046, 'precision': 0.45624896813604093, 'recall': 0.6035160515396375, 'f1_score': 0.5196502444528018, 'auc_roc': 0.6727772349224721}
+2026-07-11 11:51:41,407 — src.model_evaluation — INFO — Saved JSON metrics report to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\gender_metrics.json
+2026-07-11 11:51:41,621 — src.model_evaluation — INFO — Saved confusion matrix plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\gender_confusion_matrix.png
+2026-07-11 11:51:42,174 — src.model_evaluation — INFO — Saved feature importance plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\gender_feature_importance.png
+2026-07-11 11:51:42,174 — src.utils — INFO — Function 'evaluate_classification' executed in 1.4573 seconds
+2026-07-11 11:51:42,190 — mlflow_tracking.tracking_config — INFO — Found existing MLflow experiment: Gender_Classification (ID: 2)
+2026-07-11 11:51:42,198 — mlflow_tracking.tracking_config — INFO — Starting MLflow run 'RandomForest_Classifier_Run' under experiment 'Gender_Classification'...
+2026-07-11 11:52:04,649 — mlflow_tracking.tracking_config — INFO — Logged and registered model artifact: gender_classifier
+2026-07-11 11:52:04,681 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: gender_metrics.json
+2026-07-11 11:52:04,689 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: gender_confusion_matrix.png
+2026-07-11 11:52:04,696 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: gender_feature_importance.png
+2026-07-11 11:52:04,726 — __main__ — INFO — Gender classification pipeline finished successfully.
+2026-07-11 11:52:04,726 — __main__ — INFO — ==================================================
+2026-07-11 11:52:04,726 — __main__ — INFO — STARTING CHURN MODEL TRAINING PIPELINE
+2026-07-11 11:52:04,726 — __main__ — INFO — ==================================================
+2026-07-11 11:52:04,726 — src.feature_engineering — INFO — Engineering features for Churn classification model...
+2026-07-11 11:52:06,256 — src.feature_engineering — INFO — Churn features engineered. X shape: (1340, 11), y shape: (1340,)
+2026-07-11 11:52:06,263 — src.utils — INFO — Function 'build_churn_features' executed in 1.5361 seconds
+2026-07-11 11:52:06,263 — src.data_preprocessing — INFO — DataPreprocessor initialised.
+2026-07-11 11:52:06,266 — src.data_preprocessing — INFO — Handling missing values (strategy=median) – total NaN before: 0
+2026-07-11 11:52:06,273 — src.data_preprocessing — INFO — Missing-value handling complete – NaN remaining: 0
+2026-07-11 11:52:06,274 — src.utils — INFO — Function 'handle_missing_values' executed in 0.0104 seconds
+2026-07-11 11:52:06,274 — src.data_preprocessing — INFO — Encoding categoricals: ['preferred_flight_type', 'preferred_agency']
+2026-07-11 11:52:06,277 — src.data_preprocessing — INFO — Encoded 'preferred_flight_type' – 3 unique classes: ['economic', 'firstClass', 'premium']
+2026-07-11 11:52:06,279 — src.data_preprocessing — INFO — Encoded 'preferred_agency' – 3 unique classes: ['CloudFy', 'FlyingDrops', 'Rainbow']
+2026-07-11 11:52:06,280 — src.utils — INFO — Function 'encode_categoricals' executed in 0.0063 seconds
+2026-07-11 11:52:06,281 — src.data_preprocessing — INFO — Normalising columns: ['total_flights', 'total_hotel_bookings', 'total_spend', 'avg_flight_price', 'avg_hotel_price', 'unique_destinations', 'age', 'days_since_last_trip']
+2026-07-11 11:52:06,296 — src.data_preprocessing — INFO — Normalisation complete – means ≈ [202.9015, 30.2627, 210480.5682, 952.801, 209.1821, 8.6575, 42.7425, 723.4321], stds ≈ [118.1494, 18.3476, 124470.1893, 110.0944, 40.0014, 1.2422, 12.865, 700.9803]
+2026-07-11 11:52:06,297 — src.utils — INFO — Function 'normalize_numericals' executed in 0.0167 seconds
+2026-07-11 11:52:06,303 — src.data_preprocessing — INFO — Preprocessor state saved to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\churn_preprocessor.pkl
+2026-07-11 11:52:06,303 — src.model_training — INFO — Training Churn Classification Model...
+2026-07-11 11:52:06,311 — src.model_training — INFO — Selected model: random_forest with params: {'n_estimators': 200, 'max_depth': 10, 'min_samples_split': 10, 'min_samples_leaf': 4, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1}
+2026-07-11 11:52:06,312 — src.model_training — INFO — Fitting Churn classifier model...
+2026-07-11 11:52:07,235 — src.utils — INFO — Saved artifact to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\models\churn_classifier.joblib
+2026-07-11 11:52:07,235 — src.model_training — INFO — Churn classifier model trained and saved successfully.
+2026-07-11 11:52:07,235 — src.utils — INFO — Function 'train_churn_classifier' executed in 0.9315 seconds
+2026-07-11 11:52:07,236 — src.model_evaluation — INFO — Evaluating classification model 'churn'...
+2026-07-11 11:52:07,392 — src.model_evaluation — INFO — Classification Metrics for churn: {'accuracy': 1.0, 'precision': 1.0, 'recall': 1.0, 'f1_score': 1.0, 'auc_roc': 1.0}
+2026-07-11 11:52:07,395 — src.model_evaluation — INFO — Saved JSON metrics report to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\churn_metrics.json
+2026-07-11 11:52:07,622 — src.model_evaluation — INFO — Saved confusion matrix plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\churn_confusion_matrix.png
+2026-07-11 11:52:08,266 — src.model_evaluation — INFO — Saved feature importance plot to C:\Users\NARKEES SALEEM\OneDrive\Documents\voyage analytics\voyage-analytics\reports\churn_feature_importance.png
+2026-07-11 11:52:08,267 — src.utils — INFO — Function 'evaluate_classification' executed in 1.0312 seconds
+2026-07-11 11:52:08,281 — mlflow_tracking.tracking_config — INFO — Found existing MLflow experiment: Churn_Classification (ID: 3)
+2026-07-11 11:52:08,291 — mlflow_tracking.tracking_config — INFO — Starting MLflow run 'RandomForest_Classifier_Run' under experiment 'Churn_Classification'...
+2026-07-11 11:52:29,487 — mlflow_tracking.tracking_config — INFO — Logged and registered model artifact: churn_classifier
+2026-07-11 11:52:29,518 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: churn_metrics.json
+2026-07-11 11:52:29,524 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: churn_confusion_matrix.png
+2026-07-11 11:52:29,530 — mlflow_tracking.tracking_config — INFO — Logged extra artifact: churn_feature_importance.png
+2026-07-11 11:52:29,559 — __main__ — INFO — Churn classification pipeline finished successfully.
+2026-07-11 11:52:29,559 — __main__ — INFO — All model training pipelines completed successfully.

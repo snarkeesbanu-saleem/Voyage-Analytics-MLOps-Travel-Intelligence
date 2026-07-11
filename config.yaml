@@ -133,6 +133,7 @@ models:
       - "preferred_agency"
       - "age"
       - "days_since_last_trip"
+      - "feedback_sentiment"
     estimators:
       random_forest:
         type: "RandomForestClassifier"
